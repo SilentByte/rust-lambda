@@ -25,14 +25,6 @@ struct OutputPayload {
     numbers: Vec<u8>,
 }
 
-fn get_name_or_default(name: &str) -> &str {
-    if name.trim().is_empty() {
-        "Anonymous"
-    } else {
-        name
-    }
-}
-
 /// This is where most of the work of our Rust lambda is done. Once an incoming request arrives
 /// at our lambda, this function will be invoked along with the request payload we have defined
 /// earlier. It expects a LambdaResponse containing our response payload. In this example,
@@ -42,13 +34,13 @@ fn lambda_handler(
     _c: Context,
 ) -> Result<LambdaResponse, HandlerError> {
     let payload = e.body();
-    let name = get_name_or_default(&payload.name);
+    let name = &payload.name.to_uppercase();
     let count = std::cmp::min(std::cmp::max(2, payload.count), 20);
 
     let response = LambdaResponseBuilder::new()
         .with_status(200)
         .with_json(OutputPayload {
-            message: format!("Hi, {}. Your lucky numbers are:", name),
+            message: format!("Hi, '{}'. Your lucky numbers are:", name),
             numbers: (1..=count).map(|_| thread_rng().gen_range(1, 42)).collect(),
         })
         .build();
