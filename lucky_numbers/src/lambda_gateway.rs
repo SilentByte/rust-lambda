@@ -5,10 +5,25 @@
 
 use std::collections::HashMap;
 
-use serde::de::DeserializeOwned;
+use serde::de::{DeserializeOwned, Deserializer, Error};
 use serde::{Deserialize, Serialize};
+use serde_json;
 
-use crate::json_deserializer;
+/// Represents a deserializer function that deserializes values from a JSON string and
+/// is intended to be used in conjunction with serde's with attribute, e.g.
+/// ```
+/// #[derive(Deserialize, Debug)]
+/// struct LambdaInput {
+///     #[serde(with = "json_deserializer")]
+///     body: Payload,
+/// }
+/// ```
+#[allow(dead_code)]
+pub fn deserialize<'a, T: DeserializeOwned, D: Deserializer<'a>>(
+    deserializer: D,
+) -> Result<T, D::Error> {
+    serde_json::from_str(&String::deserialize(deserializer)?).map_err(Error::custom)
+}
 
 /// This struct represents the incoming lambda request. The body is being passed in by AWS
 /// as a string. Since we expect this string to contain JSON data, we will automatically
@@ -16,7 +31,7 @@ use crate::json_deserializer;
 /// but for the purpose of this demonstration, the body field is sufficient and others are ignored.
 #[derive(Deserialize, Debug)]
 pub struct LambdaRequest<Data: DeserializeOwned> {
-    #[serde(with = "json_deserializer")]
+    #[serde(deserialize_with = "deserialize")]
     body: Data,
 }
 

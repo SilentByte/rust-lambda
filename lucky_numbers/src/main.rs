@@ -3,7 +3,6 @@
 ////! Copyright (c) 2019 SilentByte <https://silentbyte.com/>
 ////!
 
-mod json_deserializer;
 mod lambda_gateway;
 
 use lambda_runtime::{error::HandlerError, lambda, Context};
