@@ -1,18 +1,35 @@
+#
+# Defines the project architecture for deployment ("Infrastructure as Code").
+#
+
+# The name of the service.
 service: rust-lambda
+
+# We want to host the project on AWS using Rust.
 provider:
     name: aws
     runtime: rust
 
+# To automate building and deployment, we'll use a plugin specifically made for Rust.
 plugins:
     - serverless-rust
 
+# This tells the framework to package each function separately with its own container.
 package:
     individually: true
 
+# Here is where we define all our functions (each living in a separate Cargo crate).
 functions:
+    # In this project, we only have one lambda function called `lucky_numbers`.
     lucky_numbers:
+        # The name of the handler must match the name of the crate (not the actual function defined within).
         handler: lucky_numbers
+
+        # This tells AWS when to trigger our function.
         events:
+            # The event we're interested in is an incoming HTTP request.
             - http:
-                path: /lucky_numbers
-                method: POST
+                  # The function will be called for every POST request that is made
+                  # onto the `/lucky_numbers` endpoint.
+                  path: /lucky_numbers
+                  method: POST
