@@ -4,7 +4,8 @@
   "description": "Guide for Creating an AWS Lambda Function using Rust",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "invoke": "serverless invoke local -f lucky_numbers -d '{\"body\": \"{\\\"name\\\":\\\" \\\", \\\"count\\\": 10}\"}'",
+    "deploy": "serverless deploy"
   },
   "repository": {
     "type": "git",
