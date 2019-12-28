@@ -1,0 +1,22 @@
+{
+  "name": "rust-lambda",
+  "version": "1.0.0",
+  "description": "Guide for Creating an AWS Lambda Function using Rust",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SilentByte/rust-lambda.git"
+  },
+  "author": "Rico A. Beti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SilentByte/rust-lambda/issues"
+  },
+  "homepage": "https://github.com/SilentByte/rust-lambda#readme",
+  "devDependencies": {
+    "serverless-rust": "^0.3.7"
+  }
+}

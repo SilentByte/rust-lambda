@@ -1,0 +1,18 @@
+service: rust-lambda
+provider:
+    name: aws
+    runtime: rust
+
+plugins:
+    - serverless-rust
+
+package:
+    individually: true
+
+functions:
+    lucky_numbers:
+        handler: lucky_numbers
+        events:
+            - http:
+                path: /lucky_numbers
+                method: POST
